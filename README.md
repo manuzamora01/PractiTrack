@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/98d32035-68df-4dd4-98ad-4dd4fb59eab1/deploy-status)](https://app.netlify.com/projects/practitrack/deploys)
+
 # 📓 PractiTrack - Gestión de Apuntes para Prácticas
 
 PractiTrack es una **Progressive Web App (PWA)** diseñada para estudiantes y profesionales en periodo de prácticas que necesitan llevar un registro diario, organizado y profesional de sus tareas, reuniones y aprendizajes.
@@ -46,5 +48,4 @@ Si quieres clonar este proyecto y usar tu propia base de datos:
    };
    ```
 5. Abre el archivo index.html con un servidor local (ej. Live Server en VS Code).
-    
-[![Netlify Status](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://practitrack.netlify.app)
+
