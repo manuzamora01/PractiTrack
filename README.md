@@ -41,7 +41,5 @@ Si quieres clonar este proyecto y usar tu propia base de datos:
      // ... resto de tu config
    };
    ```
-Abre el archivo index.html con un servidor local (ej. Live Server en VS Code).
-     apiKey: "TU_API_KEY",
-     // ... resto de tu config
-   };
+5. Abre el archivo index.html con un servidor local (ej. Live Server en VS Code).
+    
