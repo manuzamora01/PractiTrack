@@ -47,3 +47,4 @@ Si quieres clonar este proyecto y usar tu propia base de datos:
    ```
 5. Abre el archivo index.html con un servidor local (ej. Live Server en VS Code).
     
+[![Netlify Status](https://img.shields.io/badge/Netlify-Deployed-00C7B7?style=for-the-badge&logo=netlify&logoColor=white)](https://practitrack.netlify.app)
