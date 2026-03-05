@@ -31,7 +31,7 @@ PractiTrack es una **Progressive Web App (PWA)** diseñada para estudiantes y pr
 
 Si quieres clonar este proyecto y usar tu propia base de datos:
 
-1. Clona el repositorio: `git clone https://github.com/TU_USUARIO/PractiTrack.git`
+1. Clona el repositorio: `git clone https://github.com/manuzamora01/PractiTrack.git`
 2. Crea un proyecto en [Firebase Console](https://console.firebase.google.com/).
 3. Activa **Authentication** (Email/Password) y **Firestore Database**.
 4. Copia tus credenciales en el archivo `app.js`:
