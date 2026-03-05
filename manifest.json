@@ -1,0 +1,26 @@
+{
+  "id": "/index.html",
+  "name": "PractiTrack - Mis Apuntes",
+  "short_name": "PractiTrack",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#4f46e5",
+  "description": "Gestión de apuntes y tareas para prácticas profesionales.",
+  "icons": [
+    {
+      "src": "icono.png",
+      "sizes": "144x144 192x192 512x512 2048x2048",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "icono.png",
+      "sizes": "2048x2048",
+      "type": "image/png",
+      "form_factor": "narrow"
+    }
+  ]
+}

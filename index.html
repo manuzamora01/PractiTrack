@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PractiTrack - Mis Apuntes</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📓</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="login-screen" class="pantalla-centrada">
+        
+        <div id="vista-login" class="tarjeta-login">
+            <div class="logo-app">📝</div>
+            <h2>Bienvenido de nuevo</h2>
+            <p class="subtitulo">Entra a tu panel de tareas</p>
+            
+            <div class="form-group">
+                <input type="email" id="emailLoginInp" placeholder="Tu correo electrónico">
+                <input type="password" id="passwordLoginInp" placeholder="Tu contraseña">
+            </div>
+            
+            <div class="botones-login">
+                <button id="btnLogin" class="btn-primario">Entrar al panel</button>
+            </div>
+            
+            <p id="mensajeErrorLogin" class="mensaje-alerta"></p>
+            
+            <div class="cambio-vista">
+                <p>¿No tienes cuenta? <span id="linkIrRegistro" class="link-texto">Regístrate gratis</span></p>
+            </div>
+        </div>
+
+        <div id="vista-registro" class="tarjeta-login" style="display: none;">
+            <div class="logo-app">🚀</div>
+            <h2>Crea tu cuenta</h2>
+            <p class="subtitulo">Únete para gestionar tus prácticas</p>
+            
+            <div class="form-group">
+                <input type="email" id="emailRegInp" placeholder="Correo electrónico válido">
+                <input type="password" id="passwordRegInp" placeholder="Crea una contraseña (mín. 6 letras)">
+                <input type="password" id="passwordConfirmRegInp" placeholder="Repite tu contraseña">
+            </div>
+            
+            <div class="botones-login">
+                <button id="btnRegister" class="btn-primario">Crear mi cuenta</button>
+            </div>
+            
+            <p id="mensajeErrorRegistro" class="mensaje-alerta"></p>
+            
+            <div class="cambio-vista">
+                <p>¿Ya tienes cuenta? <span id="linkIrLogin" class="link-texto">Inicia sesión aquí</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-screen" class="layout-app" style="display: none;">
+        <header class="header-principal">
+            <div class="header-contenido">
+                <h1>📝 Mi Panel de Tareas</h1>
+                <button id="btnLogout" class="btn-outline">Cerrar Sesión</button>
+            </div>
+        </header>
+        
+        <main class="contenedor-principal">
+            <section class="tarjeta form-nueva-tarea">
+                <h3 id="tituloSeccionFormulario">✨ Nuevo Apunte</h3>
+                <input type="text" id="tituloTareaInp" placeholder="¿En qué estás trabajando? (Ej. Análisis de datos)" class="input-grande">
+                
+                <div class="fila-inputs">
+                    <div class="grupo-input con-boton">
+                        <select id="categoriaInp"><option value="">Cargando ámbitos...</option></select>
+                        <button id="btnAbrirModalCategorias" class="btn-icono" title="Gestionar mis ámbitos">⚙️</button>
+                    </div>
+                    <div class="grupo-input"><input type="date" id="fechaCreacionInp"></div>
+                </div>
+
+                <textarea id="descripcionInp" placeholder="Escribe aquí tu apunte..."></textarea>
+                
+                <details class="ayuda-markdown">
+                    <summary>ℹ️ Ayuda de formato para tus notas</summary>
+                    <div class="ayuda-contenido">
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                            <div>
+                                <p><strong>**Negrita**</strong> ➔ <b>Negrita</b></p>
+                                <p><em>*Cursiva*</em> ➔ <i>Cursiva</i></p>
+                                <p><strong>~~Tachado~~</strong> ➔ <s>Tachado</s></p>
+                                <p><strong>### Título</strong> ➔ Título grande</p>
+                            </div>
+                            <div>
+                                <p><strong>- Texto</strong> ➔ Lista con puntos</p>
+                                <p><strong>1. Texto</strong> ➔ Lista numerada</p>
+                                <p><strong>> Texto</strong> ➔ Cita destacada</p>
+                                <p><strong>[Google](url)</strong> ➔ Enlace</p>
+                            </div>
+                        </div>
+                        <p style="margin-top: 8px; border-top: 1px solid #e2e8f0; padding-top: 8px;">
+                            <em>💡 Consejo: Separa los párrafos dejando una línea en blanco entre ellos.</em>
+                        </p>
+                    </div>
+                </details>
+
+                <div class="acciones-formulario">
+                    <button id="btnGuardarApunte" class="btn-primario">Guardar Apunte</button>
+                    <button id="btnCancelarEdicion" class="btn-secundario" style="display: none;">Cancelar Edición</button>
+                </div>
+            </section>
+
+            <section class="seccion-historial">
+                <div class="cabecera-historial"><h3>📚 Historial de Trabajo</h3></div>
+                
+                <div class="barra-filtros">
+                    <div class="grupo-filtro filtro-buscar">
+                        <span class="icono-busqueda">🔍</span>
+                        <input type="text" id="filtroTexto" placeholder="Buscar palabra clave...">
+                    </div>
+                    <select id="filtroCategoria" class="filtro-select"><option value="Todos">Todos los ámbitos</option></select>
+                    <input type="date" id="filtroFecha" class="filtro-fecha">
+                    <button id="btnLimpiarFiltros" class="btn-secundario btn-limpiar">Limpiar</button>
+                </div>
+
+                <div id="contenedorApuntes" class="grid-apuntes">
+                    <p class="mensaje-vacio">Cargando tus apuntes...</p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="modalCategorias" class="modal-fondo" style="display: none;">
+        <div class="modal-contenido">
+            <div class="modal-header">
+                <h3>Mis Ámbitos de Trabajo</h3>
+                <button id="btnCerrarModal" class="btn-icono-rojo">❌</button>
+            </div>
+            <div class="modal-body">
+                <div class="fila-inputs">
+                    <input type="text" id="nuevaCategoriaInp" placeholder="Ej. Marketing, Clientes...">
+                    <button id="btnGuardarCategoria" class="btn-primario">Añadir</button>
+                </div>
+                <div id="listaCategoriasModal" class="lista-modal">
+                    <p class="mensaje-vacio">Cargando...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script type="module" src="app.js"></script>
+</body>
+</html>
