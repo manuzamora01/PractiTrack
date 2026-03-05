@@ -37,8 +37,12 @@ Si quieres clonar este proyecto y usar tu propia base de datos:
 4. Copia tus credenciales en el archivo `app.js`:
    ```javascript
    const firebaseConfig = {
-   apiKey: "TU_API_KEY",
-     // ... resto de tu config
+     apiKey: "",
+     authDomain: "",
+     projectId: "",
+     storageBucket: "",
+     messagingSenderId: "",
+     appId: ""
    };
    ```
 5. Abre el archivo index.html con un servidor local (ej. Live Server en VS Code).
