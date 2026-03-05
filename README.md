@@ -1,4 +1,5 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/98d32035-68df-4dd4-98ad-4dd4fb59eab1/deploy-status)](https://app.netlify.com/projects/practitrack/deploys)
+[**✨ Explorar la App en vivo »**](https://practitrack.netlify.app)
 
 # 📓 PractiTrack - Gestión de Apuntes para Prácticas
 
