@@ -4,21 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PractiTrack - Mis Apuntes</title>
+    
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4f46e5">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📓</text></svg>">
+    <link rel="apple-touch-icon" href="icono.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <div id="login-screen" class="pantalla-centrada">
-        
         <div id="vista-login" class="tarjeta-login">
-            <div class="logo-app">📝</div>
-            <h2>Bienvenido de nuevo</h2>
+            <div class="logo-app">📓</div>
+            <h2>Bienvenido a PractiTrack</h2>
             <p class="subtitulo">Entra a tu panel de tareas</p>
             
             <div class="form-group">
@@ -29,9 +32,7 @@
             <div class="botones-login">
                 <button id="btnLogin" class="btn-primario">Entrar al panel</button>
             </div>
-            
             <p id="mensajeErrorLogin" class="mensaje-alerta"></p>
-            
             <div class="cambio-vista">
                 <p>¿No tienes cuenta? <span id="linkIrRegistro" class="link-texto">Regístrate gratis</span></p>
             </div>
@@ -39,10 +40,14 @@
 
         <div id="vista-registro" class="tarjeta-login" style="display: none;">
             <div class="logo-app">🚀</div>
-            <h2>Crea tu cuenta</h2>
+            <h2>Crea tu perfil</h2>
             <p class="subtitulo">Únete para gestionar tus prácticas</p>
             
             <div class="form-group">
+                <div class="fila-inputs" style="margin-bottom: 0;">
+                    <div class="grupo-input"><input type="text" id="nombreRegInp" placeholder="Nombre"></div>
+                    <div class="grupo-input"><input type="text" id="apellidosRegInp" placeholder="Apellidos"></div>
+                </div>
                 <input type="email" id="emailRegInp" placeholder="Correo electrónico válido">
                 <input type="password" id="passwordRegInp" placeholder="Crea una contraseña (mín. 6 letras)">
                 <input type="password" id="passwordConfirmRegInp" placeholder="Repite tu contraseña">
@@ -51,9 +56,7 @@
             <div class="botones-login">
                 <button id="btnRegister" class="btn-primario">Crear mi cuenta</button>
             </div>
-            
             <p id="mensajeErrorRegistro" class="mensaje-alerta"></p>
-            
             <div class="cambio-vista">
                 <p>¿Ya tienes cuenta? <span id="linkIrLogin" class="link-texto">Inicia sesión aquí</span></p>
             </div>
@@ -63,70 +66,101 @@
     <div id="app-screen" class="layout-app" style="display: none;">
         <header class="header-principal">
             <div class="header-contenido">
-                <h1>📝 Mi Panel de Tareas</h1>
-                <button id="btnLogout" class="btn-outline">Cerrar Sesión</button>
+                <div class="header-bloque-izq">
+                    <h1 style="margin:0;">📓 PractiTrack</h1>
+                    <div class="controles-grupo">
+                        <select id="grupoActivoSelect" class="filtro-select selector-grupo"></select>
+                        <button id="btnGestionarGrupos" class="btn-icono" title="Ajustes de este grupo">⚙️</button>
+                    </div>
+                </div>
+                <div class="header-bloque-der">
+                    <span id="nombreUsuarioHeader" class="nombre-usuario-txt">Cargando...</span>
+                    <button id="btnToggleTema" class="btn-icono" title="Cambiar tema">🌙</button>
+                    <button id="btnLogout" class="btn-outline">Salir</button>
+                </div>
             </div>
         </header>
         
         <main class="contenedor-principal">
             <section class="tarjeta form-nueva-tarea">
                 <h3 id="tituloSeccionFormulario">✨ Nuevo Apunte</h3>
-                <input type="text" id="tituloTareaInp" placeholder="¿En qué estás trabajando? (Ej. Análisis de datos)" class="input-grande">
+                <input type="text" id="tituloTareaInp" placeholder="¿En qué estás trabajando?" class="input-grande">
                 
                 <div class="fila-inputs">
-                    <div class="grupo-input con-boton">
+                    <div class="grupo-input con-boton" style="flex: 2;">
                         <select id="categoriaInp"><option value="">Cargando ámbitos...</option></select>
                         <button id="btnAbrirModalCategorias" class="btn-icono" title="Gestionar mis ámbitos">⚙️</button>
                     </div>
-                    <div class="grupo-input"><input type="date" id="fechaCreacionInp"></div>
+                    <div class="grupo-input" style="flex: 1;"><input type="date" id="fechaCreacionInp"></div>
                 </div>
 
-                <textarea id="descripcionInp" placeholder="Escribe aquí tu apunte..."></textarea>
-                
-                <details class="ayuda-markdown">
-                    <summary>ℹ️ Ayuda de formato para tus notas</summary>
-                    <div class="ayuda-contenido">
-                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                            <div>
-                                <p><strong>**Negrita**</strong> ➔ <b>Negrita</b></p>
-                                <p><em>*Cursiva*</em> ➔ <i>Cursiva</i></p>
-                                <p><strong>~~Tachado~~</strong> ➔ <s>Tachado</s></p>
-                                <p><strong>### Título</strong> ➔ Título grande</p>
-                            </div>
-                            <div>
-                                <p><strong>- Texto</strong> ➔ Lista con puntos</p>
-                                <p><strong>1. Texto</strong> ➔ Lista numerada</p>
-                                <p><strong>> Texto</strong> ➔ Cita destacada</p>
-                                <p><strong>[Google](url)</strong> ➔ Enlace</p>
-                            </div>
-                        </div>
-                        <p style="margin-top: 8px; border-top: 1px solid #e2e8f0; padding-top: 8px;">
-                            <em>💡 Consejo: Separa los párrafos dejando una línea en blanco entre ellos.</em>
-                        </p>
+                <div class="fila-inputs" style="margin-top: -5px;">
+                    <div class="grupo-input con-etiqueta">
+                        <label>Hora Inicio:</label><input type="time" id="horaInicioInp">
                     </div>
-                </details>
+                    <div class="grupo-input con-etiqueta">
+                        <label>Hora Fin:</label><input type="time" id="horaFinInp">
+                    </div>
+                </div>
 
+                <div class="editor-wrapper" style="margin-bottom: 20px;">
+                    <div id="editor-container"></div>
+                </div>
+                
                 <div class="acciones-formulario">
                     <button id="btnGuardarApunte" class="btn-primario">Guardar Apunte</button>
-                    <button id="btnCancelarEdicion" class="btn-secundario" style="display: none;">Cancelar Edición</button>
+                    <button id="btnCancelarEdicion" class="btn-secundario" style="display: none;">Cancelar</button>
                 </div>
             </section>
 
             <section class="seccion-historial">
-                <div class="cabecera-historial"><h3>📚 Historial de Trabajo</h3></div>
+                <div class="cabecera-historial"><h3>📚 Historial del Grupo</h3></div>
                 
+                <div id="panelEstadisticas" class="panel-estadisticas">
+                    <div class="stat-card">
+                        <div class="stat-icon">📝</div>
+                        <div class="stat-info">
+                            <span class="stat-title">Total Apuntes</span>
+                            <span id="statTotal" class="stat-value">0</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <span class="stat-title">Tiempo Invertido</span>
+                            <span id="statHoras" class="stat-value">0h 0m</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📊</div>
+                        <div class="stat-info">
+                            <span class="stat-title">Ámbito Principal</span>
+                            <span id="statAmbito" class="stat-value">-</span>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="barra-filtros">
                     <div class="grupo-filtro filtro-buscar">
                         <span class="icono-busqueda">🔍</span>
-                        <input type="text" id="filtroTexto" placeholder="Buscar palabra clave...">
+                        <input type="text" id="filtroTexto" placeholder="Buscar en este grupo...">
                     </div>
                     <select id="filtroCategoria" class="filtro-select"><option value="Todos">Todos los ámbitos</option></select>
                     <input type="date" id="filtroFecha" class="filtro-fecha">
+                    <select id="filtroOrden" class="filtro-select" style="min-width: 170px;">
+                        <option value="desc">↓ Más recientes</option>
+                        <option value="asc">↑ Más antiguos</option>
+                    </select>
                     <button id="btnLimpiarFiltros" class="btn-secundario btn-limpiar">Limpiar</button>
+                    
+                    <div style="display: flex; gap: 8px; width: 100%; margin-top: 10px; border-top: 1px dashed var(--border-color); padding-top: 15px;">
+                        <button id="btnSeleccionarVisibles" class="btn-outline">☑️ Marcar visibles</button>
+                        <button id="btnExportarPDF" class="btn-primario" style="background-color: #10b981; margin-left: auto;">📄 Exportar <span id="contadorSeleccion" style="background: white; color: #10b981; padding: 2px 6px; border-radius: 20px; font-size: 11px; margin-left: 5px;">0</span></button>
+                    </div>
                 </div>
 
                 <div id="contenedorApuntes" class="grid-apuntes">
-                    <p class="mensaje-vacio">Cargando tus apuntes...</p>
+                    <p class="mensaje-vacio">Cargando apuntes...</p>
                 </div>
             </section>
         </main>
@@ -134,23 +168,62 @@
 
     <div id="modalCategorias" class="modal-fondo" style="display: none;">
         <div class="modal-contenido">
-            <div class="modal-header">
-                <h3>Mis Ámbitos de Trabajo</h3>
-                <button id="btnCerrarModal" class="btn-icono-rojo">❌</button>
-            </div>
+            <div class="modal-header"><h3>Mis Ámbitos de Trabajo</h3><button id="btnCerrarModal" class="btn-icono-rojo">❌</button></div>
             <div class="modal-body">
-                <div class="fila-inputs">
-                    <input type="text" id="nuevaCategoriaInp" placeholder="Ej. Marketing, Clientes...">
-                    <button id="btnGuardarCategoria" class="btn-primario">Añadir</button>
+                <div class="fila-inputs"><input type="text" id="nuevaCategoriaInp" placeholder="Ej. Marketing..."><button id="btnGuardarCategoria" class="btn-primario">Añadir</button></div>
+                <div id="listaCategoriasModal" class="lista-modal"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalGrupos" class="modal-fondo" style="display: none;">
+        <div class="modal-contenido" style="max-width: 500px;">
+            <div class="modal-header"><h3>Gestión de Grupos</h3><button id="btnCerrarModalGrupos" class="btn-icono-rojo">❌</button></div>
+            <div class="modal-body">
+                <div class="caja-crear-grupo">
+                    <h4 style="margin: 0 0 10px 0;">➕ Crear un Grupo Nuevo</h4>
+                    <div class="fila-inputs" style="margin-bottom: 0;">
+                        <input type="text" id="nuevoGrupoInp" placeholder="Nombre del grupo..." style="margin-bottom:0;"><button id="btnCrearGrupo" class="btn-primario">Crear</button>
+                    </div>
                 </div>
-                <div id="listaCategoriasModal" class="lista-modal">
-                    <p class="mensaje-vacio">Cargando...</p>
+                <div id="zonaGestionGrupoActivo">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <h4 style="margin: 0;">⚙️ Grupo Actual: <span id="nombreGrupoGestion" style="color: var(--primary);">...</span></h4>
+                        <div id="accionesGrupoCreador" style="display:none; gap: 5px;">
+                            <button id="btnEditarNombreGrupo" class="btn-icono" style="padding: 5px 8px; font-size: 13px;" title="Cambiar nombre">✏️ Nombre</button>
+                            <button id="btnBorrarGrupo" class="btn-icono-rojo" style="padding: 5px 8px; font-size: 13px; background: var(--danger-light);" title="Eliminar grupo">🗑️ Borrar</button>
+                        </div>
+                    </div>
+                    <div id="zonaInvitar" style="margin-bottom: 15px;">
+                        <div class="fila-inputs" style="margin-bottom: 5px;"><input type="email" id="invitarEmailInp" placeholder="Email del compañero a invitar..." style="margin-bottom:0;"><button id="btnInvitarMiembro" class="btn-secundario">Añadir</button></div>
+                        <p id="mensajeInvitacion" style="font-size: 13px; font-weight: bold; margin: 0;"></p>
+                    </div>
+                    <h5 style="margin: 0 0 10px 0; color: var(--text-muted);">Miembros del grupo:</h5>
+                    <div id="listaMiembrosGrupo" class="lista-miembros-caja"></div>
+                </div>
+                <div id="mensajeEspacioPersonal" style="display: none; text-align: center; padding: 20px; color: var(--text-muted); font-style: italic;">
+                    Estás en tu Espacio Personal. Este grupo es privado y no se puede compartir, editar ni borrar.
                 </div>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <div id="modalConfirmacion" class="modal-fondo" style="display: none; z-index: 2000;">
+        <div class="modal-contenido" style="max-width: 350px; text-align: center; padding: 30px 20px;">
+            <div style="font-size: 40px; margin-bottom: 10px;">⚠️</div>
+            <h3 style="margin: 0 0 10px 0;">¿Estás seguro?</h3>
+            <p id="txtMensajeConfirmacion" style="color: var(--text-muted); font-size: 14px; margin-bottom: 25px;">...</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button id="btnConfirmarCancelar" class="btn-secundario">Cancelar</button>
+                <button id="btnConfirmarAceptar" class="btn-primario" style="background-color: var(--danger);">Sí, proceder</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="toast-container"></div>
+
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
