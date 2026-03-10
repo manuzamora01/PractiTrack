@@ -8,7 +8,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, on
 import { getFirestore, collection, addDoc, getDocs, query, where, doc, deleteDoc, updateDoc, setDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 // ==========================================
-// 2. TUS LLAVES DE FIREBASE (¡Sustitúyelas!)
+// 2. TUS LLAVES DE FIREBASE (¡Pon las tuyas!)
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyCH7TiOqQ-UeF1LoaJywD2xSl6CZbVf2Bc",
@@ -75,8 +75,8 @@ const nombreUsuarioHeader = document.getElementById('nombreUsuarioHeader');
 
 const vistaLogin = document.getElementById('vista-login');
 const vistaRegistro = document.getElementById('vista-registro');
-
 const vistaRecuperar = document.getElementById('vista-recuperar');
+
 const linkIrRecuperar = document.getElementById('linkIrRecuperar');
 const linkVolverLogin = document.getElementById('linkVolverLogin');
 const emailRecuperarInp = document.getElementById('emailRecuperarInp');
@@ -153,7 +153,7 @@ linkIrRecuperar.addEventListener('click', () => { vistaLogin.style.display = 'no
 linkVolverLogin.addEventListener('click', () => { vistaRecuperar.style.display = 'none'; vistaLogin.style.display = 'block'; });
 
 // ==========================================
-// RECUPERAR CONTRASEÑA (AHORA CON EL ERROR REAL)
+// LÓGICA DE RECUPERAR CONTRASEÑA
 // ==========================================
 btnRecuperarPass.addEventListener('click', () => {
     const email = emailRecuperarInp.value.trim();
@@ -167,9 +167,13 @@ btnRecuperarPass.addEventListener('click', () => {
             emailRecuperarInp.value = '';
         })
         .catch((e) => { 
-            console.error("Error al recuperar:", e);
-            // AQUÍ ESTÁ EL CAMBIO: Ahora mostramos el código exacto del error.
-            mostrarToast("Fallo: " + e.code, "error"); 
+            console.error("Error técnico al recuperar:", e);
+            // Mensaje inteligente: te avisa si lo bloquea Google o si el usuario no existe.
+            if (e.code.includes('requests-from-referer')) {
+                mostrarToast("Bloqueado por seguridad. Úsalo desde la web pública (GitHub).", "error");
+            } else {
+                mostrarToast("Asegúrate de que el correo esté registrado.", "error"); 
+            }
         })
         .finally(() => { btnRecuperarPass.disabled = false; btnRecuperarPass.textContent = "Enviar enlace"; });
 });

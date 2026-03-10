@@ -146,9 +146,7 @@ body.dark-mode .ql-picker-options { background-color: var(--card-bg) !important;
 @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
 @keyframes fadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
-/* ==========================================
-   FORZAR EL SCROLL EN LAS NOTAS CON QUILL
-   ========================================== */
+/* FORZAR EL SCROLL EN LAS NOTAS CON QUILL */
 .contenido-nota {
     max-height: 280px !important;
     overflow-y: auto !important;
