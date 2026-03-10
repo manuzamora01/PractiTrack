@@ -4,11 +4,11 @@ if ('serviceWorker' in navigator) { navigator.serviceWorker.register('./sw.js').
 // 1. IMPORTACIONES
 // ==========================================
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut, sendEmailVerification, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, query, where, doc, deleteDoc, updateDoc, setDoc, getDoc, arrayUnion, arrayRemove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 
 // ==========================================
-// 2. TUS LLAVES DE FIREBASE
+// 2. TUS LLAVES DE FIREBASE (¡Sustitúyelas!)
 // ==========================================
 const firebaseConfig = {
   apiKey: "AIzaSyCH7TiOqQ-UeF1LoaJywD2xSl6CZbVf2Bc",
@@ -75,6 +75,13 @@ const nombreUsuarioHeader = document.getElementById('nombreUsuarioHeader');
 
 const vistaLogin = document.getElementById('vista-login');
 const vistaRegistro = document.getElementById('vista-registro');
+
+const vistaRecuperar = document.getElementById('vista-recuperar');
+const linkIrRecuperar = document.getElementById('linkIrRecuperar');
+const linkVolverLogin = document.getElementById('linkVolverLogin');
+const emailRecuperarInp = document.getElementById('emailRecuperarInp');
+const btnRecuperarPass = document.getElementById('btnRecuperarPass');
+
 const linkIrRegistro = document.getElementById('linkIrRegistro');
 const linkIrLogin = document.getElementById('linkIrLogin');
 
@@ -126,7 +133,6 @@ const statTotal = document.getElementById('statTotal');
 const statHoras = document.getElementById('statHoras');
 const statAmbito = document.getElementById('statAmbito');
 
-// ELEMENTOS EXPORTACIÓN
 const btnSeleccionarVisibles = document.getElementById('btnSeleccionarVisibles');
 const btnExportarPDF = document.getElementById('btnExportarPDF');
 const contadorSeleccion = document.getElementById('contadorSeleccion');
@@ -134,15 +140,39 @@ const contadorSeleccion = document.getElementById('contadorSeleccion');
 let idApunteEditando = null;
 let idCategoriaEditando = null;
 let nombreUsuarioActual = "Usuario"; 
-
 let notasSeleccionadas = new Set();
 let apuntesCargadosMemoria = []; 
 
 // ==========================================
-// 4. AUTENTICACIÓN
+// 4. AUTENTICACIÓN Y RECUPERACIÓN
 // ==========================================
 linkIrRegistro.addEventListener('click', () => { vistaLogin.style.display = 'none'; vistaRegistro.style.display = 'block'; });
 linkIrLogin.addEventListener('click', () => { vistaRegistro.style.display = 'none'; vistaLogin.style.display = 'block'; });
+
+linkIrRecuperar.addEventListener('click', () => { vistaLogin.style.display = 'none'; vistaRecuperar.style.display = 'block'; });
+linkVolverLogin.addEventListener('click', () => { vistaRecuperar.style.display = 'none'; vistaLogin.style.display = 'block'; });
+
+// ==========================================
+// RECUPERAR CONTRASEÑA (AHORA CON EL ERROR REAL)
+// ==========================================
+btnRecuperarPass.addEventListener('click', () => {
+    const email = emailRecuperarInp.value.trim();
+    if(!email) { mostrarToast("Introduce tu correo electrónico", "warning"); return; }
+    
+    btnRecuperarPass.disabled = true; btnRecuperarPass.textContent = "Enviando...";
+    sendPasswordResetEmail(auth, email)
+        .then(() => {
+            mostrarToast("¡Enlace enviado! Revisa tu bandeja de entrada.", "success");
+            vistaRecuperar.style.display = 'none'; vistaLogin.style.display = 'block';
+            emailRecuperarInp.value = '';
+        })
+        .catch((e) => { 
+            console.error("Error al recuperar:", e);
+            // AQUÍ ESTÁ EL CAMBIO: Ahora mostramos el código exacto del error.
+            mostrarToast("Fallo: " + e.code, "error"); 
+        })
+        .finally(() => { btnRecuperarPass.disabled = false; btnRecuperarPass.textContent = "Enviar enlace"; });
+});
 
 onAuthStateChanged(auth, async (user) => {
     if (user && user.emailVerified) {
@@ -428,8 +458,6 @@ async function cargarApuntes(grupoId) {
 
             const estaSeleccionado = notasSeleccionadas.has(ap.id) ? 'checked' : '';
 
-            // ¡AQUÍ ESTÁ LA MAGIA! La caja 'contenido-nota' controla el scroll máximo,
-            // y dentro creamos una cajita nueva con 'ql-editor' que solo controla el diseño del texto.
             contenedorApuntes.innerHTML += `
                 <div class="nota-card ${ap.destacado ? 'destacada' : ''}">
                     <div class="nota-header">

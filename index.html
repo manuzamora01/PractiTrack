@@ -19,6 +19,7 @@
 <body>
 
     <div id="login-screen" class="pantalla-centrada">
+        
         <div id="vista-login" class="tarjeta-login">
             <div class="logo-app">📓</div>
             <h2>Bienvenido a PractiTrack</h2>
@@ -32,7 +33,8 @@
             <div class="botones-login">
                 <button id="btnLogin" class="btn-primario">Entrar al panel</button>
             </div>
-            <p id="mensajeErrorLogin" class="mensaje-alerta"></p>
+            <p style="margin-top: 15px; font-size: 13px;"><span id="linkIrRecuperar" class="link-texto">¿Olvidaste tu contraseña?</span></p>
+            
             <div class="cambio-vista">
                 <p>¿No tienes cuenta? <span id="linkIrRegistro" class="link-texto">Regístrate gratis</span></p>
             </div>
@@ -56,11 +58,28 @@
             <div class="botones-login">
                 <button id="btnRegister" class="btn-primario">Crear mi cuenta</button>
             </div>
-            <p id="mensajeErrorRegistro" class="mensaje-alerta"></p>
             <div class="cambio-vista">
                 <p>¿Ya tienes cuenta? <span id="linkIrLogin" class="link-texto">Inicia sesión aquí</span></p>
             </div>
         </div>
+
+        <div id="vista-recuperar" class="tarjeta-login" style="display: none;">
+            <div class="logo-app">🔐</div>
+            <h2>Recuperar Contraseña</h2>
+            <p class="subtitulo">Te enviaremos un enlace para cambiarla</p>
+            
+            <div class="form-group">
+                <input type="email" id="emailRecuperarInp" placeholder="Tu correo electrónico">
+            </div>
+            
+            <div class="botones-login">
+                <button id="btnRecuperarPass" class="btn-primario">Enviar enlace</button>
+            </div>
+            <div class="cambio-vista">
+                <p><span id="linkVolverLogin" class="link-texto">⬅ Volver al inicio</span></p>
+            </div>
+        </div>
+
     </div>
 
     <div id="app-screen" class="layout-app" style="display: none;">
@@ -119,37 +138,26 @@
                 <div id="panelEstadisticas" class="panel-estadisticas">
                     <div class="stat-card">
                         <div class="stat-icon">📝</div>
-                        <div class="stat-info">
-                            <span class="stat-title">Total Apuntes</span>
-                            <span id="statTotal" class="stat-value">0</span>
-                        </div>
+                        <div class="stat-info"><span class="stat-title">Total Apuntes</span><span id="statTotal" class="stat-value">0</span></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">⏱️</div>
-                        <div class="stat-info">
-                            <span class="stat-title">Tiempo Invertido</span>
-                            <span id="statHoras" class="stat-value">0h 0m</span>
-                        </div>
+                        <div class="stat-info"><span class="stat-title">Tiempo Invertido</span><span id="statHoras" class="stat-value">0h 0m</span></div>
                     </div>
                     <div class="stat-card">
                         <div class="stat-icon">📊</div>
-                        <div class="stat-info">
-                            <span class="stat-title">Ámbito Principal</span>
-                            <span id="statAmbito" class="stat-value">-</span>
-                        </div>
+                        <div class="stat-info"><span class="stat-title">Ámbito Principal</span><span id="statAmbito" class="stat-value">-</span></div>
                     </div>
                 </div>
 
                 <div class="barra-filtros">
                     <div class="grupo-filtro filtro-buscar">
-                        <span class="icono-busqueda">🔍</span>
-                        <input type="text" id="filtroTexto" placeholder="Buscar en este grupo...">
+                        <span class="icono-busqueda">🔍</span><input type="text" id="filtroTexto" placeholder="Buscar en este grupo...">
                     </div>
                     <select id="filtroCategoria" class="filtro-select"><option value="Todos">Todos los ámbitos</option></select>
                     <input type="date" id="filtroFecha" class="filtro-fecha">
                     <select id="filtroOrden" class="filtro-select" style="min-width: 170px;">
-                        <option value="desc">↓ Más recientes</option>
-                        <option value="asc">↑ Más antiguos</option>
+                        <option value="desc">↓ Más recientes</option><option value="asc">↑ Más antiguos</option>
                     </select>
                     <button id="btnLimpiarFiltros" class="btn-secundario btn-limpiar">Limpiar</button>
                     
@@ -168,7 +176,7 @@
 
     <div id="modalCategorias" class="modal-fondo" style="display: none;">
         <div class="modal-contenido">
-            <div class="modal-header"><h3>Mis Ámbitos de Trabajo</h3><button id="btnCerrarModal" class="btn-icono-rojo">❌</button></div>
+            <div class="modal-header"><h3>Mis Ámbitos</h3><button id="btnCerrarModal" class="btn-icono-rojo">❌</button></div>
             <div class="modal-body">
                 <div class="fila-inputs"><input type="text" id="nuevaCategoriaInp" placeholder="Ej. Marketing..."><button id="btnGuardarCategoria" class="btn-primario">Añadir</button></div>
                 <div id="listaCategoriasModal" class="lista-modal"></div>
@@ -181,28 +189,27 @@
             <div class="modal-header"><h3>Gestión de Grupos</h3><button id="btnCerrarModalGrupos" class="btn-icono-rojo">❌</button></div>
             <div class="modal-body">
                 <div class="caja-crear-grupo">
-                    <h4 style="margin: 0 0 10px 0;">➕ Crear un Grupo Nuevo</h4>
+                    <h4 style="margin: 0 0 10px 0;">➕ Crear Grupo Nuevo</h4>
                     <div class="fila-inputs" style="margin-bottom: 0;">
-                        <input type="text" id="nuevoGrupoInp" placeholder="Nombre del grupo..." style="margin-bottom:0;"><button id="btnCrearGrupo" class="btn-primario">Crear</button>
+                        <input type="text" id="nuevoGrupoInp" placeholder="Nombre..." style="margin-bottom:0;"><button id="btnCrearGrupo" class="btn-primario">Crear</button>
                     </div>
                 </div>
                 <div id="zonaGestionGrupoActivo">
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                        <h4 style="margin: 0;">⚙️ Grupo Actual: <span id="nombreGrupoGestion" style="color: var(--primary);">...</span></h4>
+                        <h4 style="margin: 0;">⚙️ Grupo: <span id="nombreGrupoGestion" style="color: var(--primary);">...</span></h4>
                         <div id="accionesGrupoCreador" style="display:none; gap: 5px;">
-                            <button id="btnEditarNombreGrupo" class="btn-icono" style="padding: 5px 8px; font-size: 13px;" title="Cambiar nombre">✏️ Nombre</button>
-                            <button id="btnBorrarGrupo" class="btn-icono-rojo" style="padding: 5px 8px; font-size: 13px; background: var(--danger-light);" title="Eliminar grupo">🗑️ Borrar</button>
+                            <button id="btnEditarNombreGrupo" class="btn-icono" style="padding: 5px 8px; font-size: 13px;">✏️</button>
+                            <button id="btnBorrarGrupo" class="btn-icono-rojo" style="padding: 5px 8px; font-size: 13px; background: var(--danger-light);">🗑️</button>
                         </div>
                     </div>
                     <div id="zonaInvitar" style="margin-bottom: 15px;">
-                        <div class="fila-inputs" style="margin-bottom: 5px;"><input type="email" id="invitarEmailInp" placeholder="Email del compañero a invitar..." style="margin-bottom:0;"><button id="btnInvitarMiembro" class="btn-secundario">Añadir</button></div>
-                        <p id="mensajeInvitacion" style="font-size: 13px; font-weight: bold; margin: 0;"></p>
+                        <div class="fila-inputs" style="margin-bottom: 5px;"><input type="email" id="invitarEmailInp" placeholder="Email..." style="margin-bottom:0;"><button id="btnInvitarMiembro" class="btn-secundario">Añadir</button></div>
                     </div>
-                    <h5 style="margin: 0 0 10px 0; color: var(--text-muted);">Miembros del grupo:</h5>
+                    <h5 style="margin: 0 0 10px 0; color: var(--text-muted);">Miembros:</h5>
                     <div id="listaMiembrosGrupo" class="lista-miembros-caja"></div>
                 </div>
                 <div id="mensajeEspacioPersonal" style="display: none; text-align: center; padding: 20px; color: var(--text-muted); font-style: italic;">
-                    Estás en tu Espacio Personal. Este grupo es privado y no se puede compartir, editar ni borrar.
+                    Estás en tu Espacio Personal privado.
                 </div>
             </div>
         </div>
@@ -223,7 +230,6 @@
     <div id="toast-container" class="toast-container"></div>
 
     <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <script type="module" src="app.js"></script>
 </body>
 </html>
